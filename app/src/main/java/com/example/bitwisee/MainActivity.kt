@@ -3,11 +3,11 @@ package com.example.bitwisee
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.Switch
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doOnTextChanged
 import kotlinx.android.synthetic.main.activity_main.view.*
@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         if(value.isEmpty()){
             value = "0"
         }
+
         staticValueInput = value.toInt()
 
     }
@@ -47,19 +48,18 @@ class MainActivity : AppCompatActivity() {
             value = "$staticValue"
         }
 
-        if(bool){
-            num = set(value.toInt(),position)
+        num = if(bool){
+            set(value.toInt(),position)
         }else{
-            num = clear(value.toInt(),position)
+            clear(value.toInt(),position)
         }
-        Toast.makeText(this, "$staticValue  $staticValueInput  $value  +  $num", Toast.LENGTH_SHORT).show()
+
+        staticValue = num
         if(changed){
-            if(num == staticValueInput){
+            if(staticValue == staticValueInput){
                 findViewById<ConstraintLayout>(R.id.bg).setBackgroundColor(Color.parseColor("#FF0000"))
                 changed = false
 
-            }else{
-                staticValue += num
             }
         }else{
             inpt.setText("$num")
